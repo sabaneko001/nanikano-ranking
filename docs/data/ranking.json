@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "updatedAt": "2026-06-06T00:00:00+09:00",
-  "description": "Read-only sample ranking data. No player names are stored.",
+  "description": "Read-only ranking data. No player names are stored.",
   "stages": {
     "stage_001": [
       {
@@ -23,6 +23,10 @@
     "stage_003": [],
     "stage_004": [],
     "stage_005": [],
-    "stage_006": []
+    "stage_006": [],
+    "stage_007": [],
+    "stage_008": [],
+    "stage_009": [],
+    "stage_010": []
   }
 }
