@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-06T00:00:00+09:00",
+  "description": "Read-only sample ranking data. No player names are stored.",
+  "stages": {
+    "stage_001": [
+      {
+        "clearTurn": 7,
+        "maxDamage": 58230,
+        "hpRemainPercent": 88.4,
+        "clearTimeMs": 392000,
+        "createdAt": "2026-06-06T12:00:00+09:00"
+      },
+      {
+        "clearTurn": 8,
+        "maxDamage": 61100,
+        "hpRemainPercent": 76.2,
+        "clearTimeMs": 421000,
+        "createdAt": "2026-06-06T12:20:00+09:00"
+      }
+    ],
+    "stage_002": [],
+    "stage_003": [],
+    "stage_004": [],
+    "stage_005": [],
+    "stage_006": []
+  }
+}
