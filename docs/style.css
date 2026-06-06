@@ -37,6 +37,14 @@ body {
   padding: 26px 4px 20px;
 }
 
+.heroActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
 .eyebrow {
   margin: 0 0 6px;
   letter-spacing: 0.22em;
@@ -69,8 +77,8 @@ h1 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 42px;
-  padding: 9px 16px;
+  min-height: 40px;
+  padding: 8px 15px;
   border: 1px solid rgba(255,255,255,0.38);
   border-radius: 999px;
   color: #ffffff;
@@ -322,6 +330,12 @@ h2 {
 }
 
 @media (max-width: 760px) {
+  .heroActions {
+    justify-content: flex-start;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
   .hero {
     display: block;
   }
