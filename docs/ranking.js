@@ -1,6 +1,6 @@
 "use strict";
 
-const DATA_URL = "./data/ranking.json";
+const DATA_URL = "./data/ranking.json?v=0004";
 const STAGES_PER_PAGE = 5;
 const MAX_RANK_DISPLAY = 10;
 const TOTAL_STAGE_COUNT = 10;
@@ -52,7 +52,6 @@ function formatHpRemain(value) {
   if (!Number.isFinite(n)) return "-";
   return `${n.toFixed(1).replace(/\.0$/, "")}%`;
 }
-
 
 function formatDate(value) {
   if (!value) return "-";
@@ -186,7 +185,6 @@ async function loadRanking() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     rankingData = await response.json();
 
-    // Ensure all stages exist so empty stages are valid.
     rankingData.stages = rankingData.stages || {};
     for (const stageId of Object.keys(stageNames)) {
       if (!Array.isArray(rankingData.stages[stageId])) rankingData.stages[stageId] = [];
