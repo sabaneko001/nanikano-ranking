@@ -1,9 +1,16 @@
 {
   "version": 4,
-  "updatedAt": "2026-06-06T17:01:28.891Z",
+  "updatedAt": "2026-06-06T17:24:46.261Z",
   "description": "Read-only ranking data. No player names are stored. Clear Time is not used.",
   "stages": {
-    "stage_001": [],
+    "stage_001": [
+      {
+        "clearTurn": 4,
+        "maxDamage": 60678,
+        "hpRemainPercent": 100,
+        "createdAt": "2026-06-06T17:24:46.032Z"
+      }
+    ],
     "stage_002": [],
     "stage_003": [],
     "stage_004": [],
