@@ -15,17 +15,16 @@
         <h1>Ranking</h1>
         <p class="lead">ステージ別のクリア結果ランキングです。</p>
       </div>
-      <div class="version">Ranking Ver.0001</div>
+      <div class="version">Ranking Ver.0002</div>
     </header>
 
-    <section class="stageBar" aria-label="Stage selector">
-      <button class="stageBtn" data-stage="stage_001">STAGE 001</button>
-      <button class="stageBtn" data-stage="stage_002">STAGE 002</button>
-      <button class="stageBtn" data-stage="stage_003">STAGE 003</button>
-      <button class="stageBtn" data-stage="stage_004">STAGE 004</button>
-      <button class="stageBtn" data-stage="stage_005">STAGE 005</button>
-      <button class="stageBtn" data-stage="stage_006">STAGE 006</button>
+    <section class="stagePager" aria-label="Stage page selector">
+      <button id="prevStagePage" class="pageArrow" type="button" aria-label="Previous stage page">◀</button>
+      <div id="stagePageLabel" class="stagePageLabel">STAGE 001 - 005</div>
+      <button id="nextStagePage" class="pageArrow" type="button" aria-label="Next stage page">▶</button>
     </section>
+
+    <section id="stageBar" class="stageBar" aria-label="Stage selector"></section>
 
     <section class="rankingPanel">
       <div class="panelHeader">
@@ -58,6 +57,7 @@
     <section class="notes">
       <h3>Ranking Rule</h3>
       <p>
+        表示は各ステージ <strong>10位まで</strong> です。
         並び順は <strong>Clear Turnが少ない順</strong>、同じ場合は
         <strong>Max Damageが高い順</strong>、さらに同じ場合は
         <strong>HP Remainが高い順</strong> です。

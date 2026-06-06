@@ -1,23 +1,37 @@
 "use strict";
 
 const DATA_URL = "./data/ranking.json";
+const STAGES_PER_PAGE = 5;
+const MAX_RANK_DISPLAY = 10;
+const TOTAL_STAGE_COUNT = 10;
 
-const stageNames = {
-  stage_001: "STAGE 001",
-  stage_002: "STAGE 002",
-  stage_003: "STAGE 003",
-  stage_004: "STAGE 004",
-  stage_005: "STAGE 005",
-  stage_006: "STAGE 006",
-};
+const stageNames = Object.fromEntries(
+  Array.from({ length: TOTAL_STAGE_COUNT }, (_, i) => {
+    const no = i + 1;
+    const id = `stage_${String(no).padStart(3, "0")}`;
+    return [id, `STAGE ${String(no).padStart(3, "0")}`];
+  })
+);
 
 let rankingData = null;
 let currentStageId = getStageFromUrl();
+let currentStagePage = getPageIndexForStage(currentStageId);
 
 function getStageFromUrl() {
   const params = new URLSearchParams(window.location.search);
   const stage = params.get("stage") || location.hash.replace(/^#/, "");
   return stageNames[stage] ? stage : "stage_001";
+}
+
+function getPageIndexForStage(stageId) {
+  const match = String(stageId || "").match(/stage_(\d+)/);
+  const stageNo = match ? Number(match[1]) : 1;
+  const safeNo = Math.max(1, Math.min(TOTAL_STAGE_COUNT, stageNo));
+  return Math.floor((safeNo - 1) / STAGES_PER_PAGE);
+}
+
+function getMaxStagePage() {
+  return Math.max(0, Math.ceil(TOTAL_STAGE_COUNT / STAGES_PER_PAGE) - 1);
 }
 
 function setStageInUrl(stageId) {
@@ -83,14 +97,58 @@ function getRecordsForStage(stageId) {
 }
 
 function renderStageButtons() {
-  document.querySelectorAll(".stageBtn").forEach((btn) => {
-    const stageId = btn.dataset.stage;
+  const stageBar = document.getElementById("stageBar");
+  const pageLabel = document.getElementById("stagePageLabel");
+  const prevBtn = document.getElementById("prevStagePage");
+  const nextBtn = document.getElementById("nextStagePage");
+
+  const startNo = currentStagePage * STAGES_PER_PAGE + 1;
+  const endNo = Math.min(TOTAL_STAGE_COUNT, startNo + STAGES_PER_PAGE - 1);
+  pageLabel.textContent = `STAGE ${String(startNo).padStart(3, "0")} - ${String(endNo).padStart(3, "0")}`;
+
+  prevBtn.disabled = currentStagePage <= 0;
+  nextBtn.disabled = currentStagePage >= getMaxStagePage();
+
+  stageBar.innerHTML = "";
+
+  for (let no = startNo; no <= endNo; no++) {
+    const stageId = `stage_${String(no).padStart(3, "0")}`;
+    const btn = document.createElement("button");
+    btn.className = "stageBtn";
+    btn.type = "button";
+    btn.dataset.stage = stageId;
+    btn.textContent = stageNames[stageId] || `STAGE ${String(no).padStart(3, "0")}`;
     btn.classList.toggle("active", stageId === currentStageId);
     btn.addEventListener("click", () => {
       currentStageId = stageId;
+      currentStagePage = getPageIndexForStage(currentStageId);
       setStageInUrl(currentStageId);
       render();
     });
+    stageBar.appendChild(btn);
+  }
+}
+
+function setupPagerButtons() {
+  const prevBtn = document.getElementById("prevStagePage");
+  const nextBtn = document.getElementById("nextStagePage");
+
+  prevBtn.addEventListener("click", () => {
+    if (currentStagePage <= 0) return;
+    currentStagePage--;
+    const firstStageNo = currentStagePage * STAGES_PER_PAGE + 1;
+    currentStageId = `stage_${String(firstStageNo).padStart(3, "0")}`;
+    setStageInUrl(currentStageId);
+    render();
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (currentStagePage >= getMaxStagePage()) return;
+    currentStagePage++;
+    const firstStageNo = currentStagePage * STAGES_PER_PAGE + 1;
+    currentStageId = `stage_${String(firstStageNo).padStart(3, "0")}`;
+    setStageInUrl(currentStageId);
+    render();
   });
 }
 
@@ -106,7 +164,7 @@ function render() {
   const updated = rankingData?.updatedAt || "";
   updatedAt.textContent = updated ? `Updated: ${formatDate(updated)}` : "";
 
-  const records = getRecordsForStage(currentStageId).slice(0, 100);
+  const records = getRecordsForStage(currentStageId).slice(0, MAX_RANK_DISPLAY);
   body.innerHTML = "";
 
   if (records.length <= 0) {
@@ -140,6 +198,13 @@ async function loadRanking() {
     const response = await fetch(DATA_URL, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     rankingData = await response.json();
+
+    // Ensure all stages exist so empty stages are valid.
+    rankingData.stages = rankingData.stages || {};
+    for (const stageId of Object.keys(stageNames)) {
+      if (!Array.isArray(rankingData.stages[stageId])) rankingData.stages[stageId] = [];
+    }
+
     render();
   } catch (error) {
     console.warn("Ranking load failed:", error);
@@ -150,7 +215,9 @@ async function loadRanking() {
 
 window.addEventListener("popstate", () => {
   currentStageId = getStageFromUrl();
+  currentStagePage = getPageIndexForStage(currentStageId);
   render();
 });
 
+setupPagerButtons();
 loadRanking();

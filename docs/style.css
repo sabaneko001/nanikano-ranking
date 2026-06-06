@@ -36,7 +36,7 @@ body {
   gap: 18px;
   align-items: flex-end;
   color: #fff;
-  padding: 26px 4px 22px;
+  padding: 26px 4px 20px;
 }
 
 .eyebrow {
@@ -71,11 +71,54 @@ h1 {
   font-weight: 700;
 }
 
+.stagePager {
+  display: grid;
+  grid-template-columns: 58px 1fr 58px;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 10px;
+}
+
+.pageArrow {
+  height: 44px;
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.12s ease, opacity 0.12s ease;
+}
+
+.pageArrow:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.18);
+}
+
+.pageArrow:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+
+.stagePageLabel {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 14px;
+  color: #dfe6ff;
+  background: rgba(255,255,255,0.06);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
 .stageBar {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
-  margin: 8px 0 16px;
+  margin: 0 0 16px;
 }
 
 .stageBtn {
@@ -251,8 +294,12 @@ h2 {
     margin-top: 16px;
   }
 
+  .stagePager {
+    grid-template-columns: 48px 1fr 48px;
+  }
+
   .stageBar {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
 
   .panelHeader {
