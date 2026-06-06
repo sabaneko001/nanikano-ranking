@@ -39,10 +39,12 @@ body {
 
 .heroActions {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: flex-end;
   gap: 12px;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .eyebrow {
@@ -64,6 +66,10 @@ h1 {
 
 .heroMain {
   min-width: 0;
+}
+
+.heroMain h1 {
+  max-width: 100%;
 }
 
 .titleRow {
@@ -330,19 +336,16 @@ h2 {
 }
 
 @media (max-width: 760px) {
-  .heroActions {
-    justify-content: flex-start;
-    margin-top: 16px;
-    flex-wrap: wrap;
-  }
-
-  .hero {
+.hero {
     display: block;
   }
 
   .version {
-    display: inline-block;
-    margin-top: 16px;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 0;
+    font-size: 12px;
+    padding: 7px 10px;
   }
 
   .stagePager {
