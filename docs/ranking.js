@@ -53,14 +53,6 @@ function formatHpRemain(value) {
   return `${n.toFixed(1).replace(/\.0$/, "")}%`;
 }
 
-function formatTime(ms) {
-  const n = Number(ms);
-  if (!Number.isFinite(n) || n <= 0) return "-";
-  const totalSec = Math.floor(n / 1000);
-  const min = Math.floor(totalSec / 60);
-  const sec = totalSec % 60;
-  return `${min}:${String(sec).padStart(2, "0")}`;
-}
 
 function formatDate(value) {
   if (!value) return "-";
@@ -88,11 +80,7 @@ function getRecordsForStage(stageId) {
 
     const hpA = Number(a.hpRemainPercent ?? 0);
     const hpB = Number(b.hpRemainPercent ?? 0);
-    if (hpA !== hpB) return hpB - hpA;
-
-    const timeA = Number(a.clearTimeMs ?? 999999999);
-    const timeB = Number(b.clearTimeMs ?? 999999999);
-    return timeA - timeB;
+    return hpB - hpA;
   });
 }
 
@@ -185,7 +173,6 @@ function render() {
       <td>${formatNumber(record.clearTurn)}</td>
       <td>${formatNumber(record.maxDamage)}</td>
       <td>${formatHpRemain(record.hpRemainPercent)}</td>
-      <td>${formatTime(record.clearTimeMs)}</td>
       <td>${formatDate(record.createdAt)}</td>
     `;
     body.appendChild(tr);
